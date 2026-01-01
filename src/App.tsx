@@ -3,19 +3,27 @@ import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
 
 function App() {
-	const [list, setList] = useState([])
+	const [list, setList] = useState<{ name: string, created: string }[]>([])
 
 	useEffect(() => {
 		async function name() {
-			const e = await invoke("refresh_sessions");
-			console.log(e);
+			await invoke("refresh_sessions");
+			const e: { name: string, created: string }[] = JSON.parse(await invoke("get_sessions"));
+			setList(e);
 		}
 		name()
 	}, [])
+
+	console.log(typeof(list));
 	
 	return (
 		<main className="container">
-			<h1>Hi!</h1>
+			<div className="list">
+				{list?.map(v => <div className="item">
+					<div>{v.name}</div>
+					<div>{v.created}</div>
+				</div>)}
+			</div>
 		</main>
 	);
 }

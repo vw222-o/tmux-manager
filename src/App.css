@@ -1,23 +1,48 @@
 * {
-  margin: 0;
+	margin: 0;
 }
 
 :root {
-  background-color: #f6f6f6;
-  color: #2f2f2f;
+	background-color: #f6f6f6;
+	color: #2f2f2f;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    color: #f6f6f6;
-    background-color: #2f2f2f;
-  }
+	:root {
+		color: #f6f6f6;
+		background-color: #2f2f2f;
+	}
 }
 
-:root * {
-  border: 1px red solid;
-}
+/* :root * {
+	border: 1px red solid;
+} */
 
 h1 {
-  text-align: center;
+	text-align: center;
+}
+
+.container {
+	padding: 10px;
+}
+
+.list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.list>.item {
+	background-color: #fff1;
+	display: grid;
+	gap: 5px;
+	padding: 5px;
+	border-radius: 10px;
+	align-items: center;
+	grid-template-columns: 3fr 2fr;
+	font-size: 1.2rem;
+}
+
+.list>.item div:nth-child(2) {
+	text-align: right;
 }
