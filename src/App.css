@@ -46,3 +46,27 @@ h1 {
 .list>.item div:nth-child(2) {
 	text-align: right;
 }
+
+.pin {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: calc(100vw - 20px);
+	background-color: #fff1;
+	padding: 10px;
+	display: flex;
+	align-items: center;
+}
+
+.pin button {
+	height: 1.75rem;
+}
+
+.buttons {
+	/* border: 1px solid red; */
+	grid-column: span 2;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 10px;
+	width: 100%;
+}

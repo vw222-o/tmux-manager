@@ -1,7 +1,7 @@
 use std::{process::Command, sync::Mutex};
 
 use regex::Regex;
-use serde::{Serialize, ser::SerializeStruct};
+use serde::{Deserialize, Serialize, ser::SerializeStruct};
 use tauri::{Manager, State};
 
 #[derive(Default)]
@@ -75,6 +75,25 @@ fn get_sessions(state: State<'_, Mutex<AppState>>) -> String {
     serde_json::to_string(&state.sessions).unwrap()
 }
 
+#[derive(Deserialize)]
+struct NativeCommand {
+    name: String,
+    args: Vec<String>
+}
+
+#[tauri::command]
+fn run_command(command: NativeCommand) -> String {
+    let result = Command::new(command.name)
+        .args(command.args)
+        .output()
+        .expect("command failed!");
+
+    let output = str::from_utf8(&result.stdout)
+        .expect("some stdout error")
+        .to_string();
+    output
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -83,7 +102,7 @@ pub fn run() {
             Ok(())
         })
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![refresh_sessions, get_sessions])
+        .invoke_handler(tauri::generate_handler![refresh_sessions, get_sessions, run_command])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
